@@ -1,5 +1,7 @@
-package com.github.matywaky.inventory;
+package com.github.matywaky.inventory.controller;
 
+import com.github.matywaky.inventory.service.StatusService;
+import com.github.matywaky.inventory.model.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -17,7 +19,7 @@ public class StatusController {
 
     private final StatusService statusService;
 
-    @GetMapping("/")
+    @GetMapping(value = {"", "/"})
     public ResponseEntity<List<Status>> getStatus() {
         return ResponseEntity.ok().body(statusService.getAllStatuses());
     }

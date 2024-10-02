@@ -1,4 +1,4 @@
-package com.github.matywaky.inventory;
+package com.github.matywaky.inventory.repository;
 
 import com.github.matywaky.inventory.model.Status;
 import org.springframework.data.jpa.repository.JpaRepository;

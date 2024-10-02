@@ -1,4 +1,4 @@
-package com.github.matywaky.inventory;
+package com.github.matywaky.inventory.service;
 
 import com.github.matywaky.inventory.model.Status;
 import com.github.matywaky.inventory.repository.StatusRepository;

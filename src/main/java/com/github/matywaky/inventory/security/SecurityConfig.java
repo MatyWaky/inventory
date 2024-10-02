@@ -1,4 +1,4 @@
-package com.github.matywaky.inventory;
+package com.github.matywaky.inventory.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

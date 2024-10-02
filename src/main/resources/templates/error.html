@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wystąpił błąd</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header>
+  <h1>Whoopsie! Something went wrong.</h1>
+</header>
+
+<main>
+  <h2 th:text="'Error number: ' + ${errorCode}"></h2>
+  <p th:text="${errorMessage}">An error occurred. Please try again later.</p>
+</main>
+
+<footer>
+  <p>&copy; 2024 Moja Aplikacja</p>
+</footer>
+</body>
+</html>

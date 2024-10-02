@@ -1,4 +1,4 @@
-package com.github.matywaky.inventory;
+package com.github.matywaky.inventory.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
