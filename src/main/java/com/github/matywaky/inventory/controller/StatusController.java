@@ -21,6 +21,10 @@ public class StatusController {
 
     @GetMapping(value = {"", "/"})
     public ResponseEntity<List<Status>> getStatus() {
-        return ResponseEntity.ok().body(statusService.getAllStatuses());
+        List<Status> statusList = statusService.getAllStatuses();
+        for (Status status : statusList) {
+            System.out.println(status.getId() + " " + status.getName() + " " + status.getDescription());
+        }
+        return ResponseEntity.ok().body(statusList);
     }
 }
