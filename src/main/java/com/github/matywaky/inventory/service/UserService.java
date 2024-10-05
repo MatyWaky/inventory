@@ -24,22 +24,22 @@ public class UserService {
     }
 
     public String dataCommunicate(String email, String password, String repeatedPassword) {
-        if (arePasswordsDifferent(password, repeatedPassword)) {
+        if (!arePasswordsSame(password, repeatedPassword)) {
             return "Passwords do not match";
-        } else if(isPasswordInvalid(password)) {
+        } else if(!isPasswordValid(password)) {
             return "Password do not match requirements";
-        } else if (isEmailInvalid(email)) {
+        } else if (!isEmailValid(email)) {
             return "Email address is not valid";
         }
         
         return null;
     }
 
-    private boolean arePasswordsDifferent(String password, String repeatedPassword) {
-        return !password.equals(repeatedPassword);
+    private boolean arePasswordsSame(String password, String repeatedPassword) {
+        return password.equals(repeatedPassword);
     }
 
-    private boolean isPasswordInvalid(String password) {
+    private boolean isPasswordValid(String password) {
         String pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{8,32}$";
         /*
         (?=.*[a-z]) — min. 1 lowercase letter
@@ -51,7 +51,7 @@ public class UserService {
         return password.matches(pattern);
     }
 
-    private boolean isEmailInvalid(String email) {
+    private boolean isEmailValid(String email) {
         String pattern = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@" +
                 "(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         /*
