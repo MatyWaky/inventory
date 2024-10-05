@@ -16,12 +16,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
-    private String surname;
-
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -31,4 +25,8 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_role"))
     private Role role;
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id" ,referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_employee"))
+    private Employee employee;
 }
