@@ -1,0 +1,90 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Add user</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+<h1>Add user</h1>
+
+<div id="message" style="display: none"></div>
+
+<p>
+    Password requirements:<br>
+    *) 8-32 characters,<br>
+    *) min. 1 lowercase letter,<br>
+    *) min. 1 uppercase letter,<br>
+    *) min. 1 digit,<br>
+    *) min. 1 special char !@#$%^&*<br>
+</p>
+
+<form id="addUserForm" th:action="@{/addUser}" th:object="${user}" method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" th:field="*{name}" required/><br>
+
+    <label for="surname">Surname:</label>
+    <input type="text" id="surname" th:field="*{surname}" required/><br>
+
+    <label for="email">E-mail:</label>
+    <input type="email" id="email" th:field="*{email}" required/><br>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" th:field="*{password}" required /><br>
+
+    <label for="repeat-password">Repeat Password:</label>
+    <input type="password" id="repeat-password" name="repeatPassword" required/><br>
+
+    <label for="role">Role:</label>
+    <select id="role" th:field="*{role.id}" required>
+        <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}"></option>
+    </select><br>
+
+    <button type="submit">Add</button>
+</form>
+
+<script>
+    $(document).ready(function() {
+        $('#addUserForm').on('submit', function(e) {
+            e.preventDefault();
+
+            const formData = {
+                name: $('#name').val(),
+                surname: $('#surname').val(),
+                email: $('#email').val(),
+                password: $('#password').val(),
+                repeatPassword: $('#repeat-password').val(),
+                roleId: $('#role').val()
+            };
+
+            $.ajax({
+                url: '/addUser',
+                type: 'POST',
+                data: formData,
+                dataType: 'json',
+                success: function(response) {
+                    $('#message')
+                        .css('color', 'green')
+                        .text(response.message)
+                        .show();
+                    $('#name').val('');
+                    $('#surname').val('');
+                    $('#email').val('');
+                    $('#password').val('');
+                    $('#repeat-password').val('');
+                },
+                error: function(xhr) {
+                    const response = JSON.parse(xhr.responseText);
+                    $('#message')
+                        .css('color', 'red')
+                        .text(response.message)
+                        .show();
+                    $('#password').val('');
+                    $('#repeat-password').val('');
+                }
+            });
+
+        });
+    });
+</script>
+</body>
+</html>
