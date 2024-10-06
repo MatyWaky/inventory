@@ -2,29 +2,54 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="en">
 <head>
   <title>Please Log In</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
-  <h1>Please Log In</h1>
+<h1>Please Log In</h1>
 
-  <!--<div th:if="${param.error}">
-    Invalid username and password.
-  </div>
+<div id="login-message" style="display: none;"></div>
 
-  <div th:if="${param.logout}">
-    You have been logged out.
-  </div>-->
+<form id="login-form">
+  <label for="email">E-mail:</label>
+  <input type="text" name="email" id="email" placeholder="Email" /><br/>
 
-  <form th:action="@{/login}" method="post">
-    <div>
-      <input type="text" name="email" placeholder="Email"/>
-    </div>
+  <label for="password">Password:</label>
+  <input type="password" name="password" id="password" placeholder="Password" /> <br/>
 
-    <div>
-      <input type="password" name="password" placeholder="Password"/>
-    </div>
-    <input type="submit" value="Log in" />
-  </form>
+  <input type="button" value="Log in" id="login-button" />
+</form>
+
+<script>
+  $(document).ready(function () {
+    $('#login-button').click(function (event) {
+      event.preventDefault();
+      let email = $('#email').val();
+      let password = $('#password').val();
+
+      $.ajax({
+        url: '/login',
+        method: 'POST',
+        contentType: 'application/x-www-form-urlencoded',
+        data: {
+          email: email,
+          password: password
+        },
+        success: function (response) {
+          $('#login-message').text('Successfully logged in!').css('color', 'green').show();
+          window.location.href = "/";
+        },
+        error: function (xhr) {
+          if (xhr.status === 401) {
+            $('#login-message').text('Invalid email or password!').css('color', 'red').show();
+          } else {
+            $('#login-message').text('An unexpected error occurred.').css('color', 'red').show();
+          }
+        }
+      });
+    });
+  });
+</script>
 
 </body>
 </html>
