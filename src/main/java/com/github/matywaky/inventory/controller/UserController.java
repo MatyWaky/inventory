@@ -7,6 +7,7 @@ import com.github.matywaky.inventory.service.EmployeeService;
 import com.github.matywaky.inventory.service.RoleService;
 import com.github.matywaky.inventory.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,14 +21,20 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequiredArgsConstructor
+/*@RequiredArgsConstructor*/
 public class UserController {
 
     private final UserService userService;
     private final RoleService roleService;
     private final EmployeeService employeeService;
 
-    @GetMapping("/addUser")
+    public UserController(UserService userService, RoleService roleService, EmployeeService employeeService) {
+        this.userService = userService;
+        this.roleService = roleService;
+        this.employeeService = employeeService;
+    }
+
+    @GetMapping("/add-user")
     public String showAddUserForm(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("roles", roleService.getAllRoles());
@@ -35,7 +42,7 @@ public class UserController {
         return "add-user";
     }
 
-    @PostMapping("/addUser")
+    @PostMapping("/add-user")
     public ResponseEntity<Map<String, String>> addUser(
             @ModelAttribute User user,
             @RequestParam String repeatPassword,
