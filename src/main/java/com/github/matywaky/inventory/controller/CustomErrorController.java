@@ -25,6 +25,9 @@ public class CustomErrorController implements ErrorController {
             else if(statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
                 model.addAttribute("errorCode", 500);
                 model.addAttribute("errorMessage", "Internal server error.");
+            } else if(statusCode == HttpStatus.FORBIDDEN.value()) {
+                model.addAttribute("errorCode", 403);
+                model.addAttribute("errorMessage", "Forbidden.");
             } else {
                 model.addAttribute("errorCode", statusCode);
                 model.addAttribute("errorMessage", "Unknown error.");

@@ -10,6 +10,10 @@
   <body>
   <header>
     <h1 th:text="${title}"/>
+
+    <form action="/logout" method="POST">
+      <input type="submit" value="Logout" />
+    </form>
   </header>
 
   <main>

@@ -25,11 +25,12 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers("/**")
                 )
-                .authorizeHttpRequests((requests) -> requests
+                .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/login", "/register").permitAll()
+                        .requestMatchers("/add-user").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
-                .formLogin(form -> form
+                .formLogin(login -> login
                         .loginPage("/login")
                         .usernameParameter("email")
                         .successHandler((request, response, authentication) -> {
@@ -42,9 +43,12 @@ public class SecurityConfig {
                         })
                         .permitAll()
                 )
-                .logout(form -> form
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
+                        .deleteCookies("JSESSIONID")
                         .permitAll()
                 );
 
