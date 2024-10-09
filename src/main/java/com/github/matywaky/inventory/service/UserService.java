@@ -1,13 +1,14 @@
 package com.github.matywaky.inventory.service;
 
+import com.github.matywaky.inventory.model.Employee;
+import com.github.matywaky.inventory.model.Role;
 import com.github.matywaky.inventory.model.User;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public interface UserService {
+public interface UserService extends BasicJpaService<User, Integer> {
 
-    String dataCommunicate(String email, String password, String repeatedPassword);
-    List<User> getAllUsers();
+    String addUser(User user, String repeatedPassword, Integer roleId, Integer employeeId);
+    List<Role> findAllRoles();
+    List<Employee> findAllEmployees();
 }

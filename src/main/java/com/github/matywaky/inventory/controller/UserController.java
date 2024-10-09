@@ -1,10 +1,6 @@
 package com.github.matywaky.inventory.controller;
 
-import com.github.matywaky.inventory.model.Employee;
-import com.github.matywaky.inventory.model.Role;
 import com.github.matywaky.inventory.model.User;
-import com.github.matywaky.inventory.service.EmployeeService;
-import com.github.matywaky.inventory.service.RoleService;
 import com.github.matywaky.inventory.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,14 +20,12 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
-    private final RoleService roleService;
-    private final EmployeeService employeeService;
 
     @GetMapping("/add-user")
     public String showAddUserForm(Model model) {
         model.addAttribute("user", new User());
-        model.addAttribute("roles", roleService.getAllRoles());
-        model.addAttribute("employees", employeeService.getAllEmployees());
+        model.addAttribute("roles", userService.findAllRoles());
+        model.addAttribute("employees", userService.findAllEmployees());
         return "add-user";
     }
 
@@ -43,38 +37,21 @@ public class UserController {
             @RequestParam Integer employeeId) {
         Map<String, String> response = new HashMap<>();
 
-        String error = userService.dataCommunicate(user.getEmail(), user.getPassword(), repeatPassword);
+        String error = userService.addUser(user, repeatPassword, roleId, employeeId);
         if (error != null) {
             response.put("status", "error");
             response.put("message", error);
             return ResponseEntity.badRequest().body(response);
+        } else {
+            response.put("status", "success");
+            response.put("message", "User added successfully");
         }
-
-        Role role = roleService.getRoleById(roleId);
-        if (role == null) {
-            response.put("status", "error");
-            response.put("message", "Role not found");
-            return ResponseEntity.badRequest().body(response);
-        }
-        user.setRole(role);
-
-        Employee employee = employeeService.getEmployeeById(employeeId);
-        if (employee == null) {
-            response.put("status", "error");
-            response.put("message", "Employee not found");
-            return ResponseEntity.badRequest().body(response);
-        }
-        user.setEmployee(employee);
-
-        //userService.saveUser(user);
-        response.put("status", "success");
-        response.put("message", "User added successfully");
 
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> getUsers() {
-        return ResponseEntity.ok().body(userService.getAllUsers());
+        return ResponseEntity.ok().body(userService.findAll());
     }
 }
