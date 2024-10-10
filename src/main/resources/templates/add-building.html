@@ -1,0 +1,64 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Add building</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+<h1>Add building</h1>
+
+<div id="message" style="display: none"></div>
+
+<form id="add-building-form" th:action="@{/add/building}" th:object="${building}" method="post">
+    <label for="name">Building name:</label>
+    <input type="text" id="name" th:field="*{name}" required th:maxlength="255"/><br>
+
+    <label for="street">Street:</label>
+    <input type="text" id="street" th:field="*{street}" required th:maxlength="255"/><br>
+
+    <label for="city">City:</label>
+    <select id="city" th:field="*{city.id}" required>
+        <option th:each="city : ${cities}" th:value="${city.id}" th:text="${city.name}"></option>
+    </select><br>
+
+    <button type="submit">Add</button>
+</form>
+
+<script>
+    $(document).ready(function() {
+        $('#add-building-form').on('submit', function(e) {
+            e.preventDefault();
+
+            const formData = {
+                name: $('#name').val(),
+                street: $('#street').val(),
+                cityId: $('#city').val()
+            };
+
+            $.ajax({
+                url: '/add/building',
+                type: 'POST',
+                data: formData,
+                dataType: 'json',
+                success: function(response) {
+                    $('#message')
+                        .css('color', 'green')
+                        .text(response.message)
+                        .show();
+                    $('#name').val('');
+                    $('#street').val('');
+                },
+                error: function(xhr) {
+                    const response = JSON.parse(xhr.responseText);
+                    $('#message')
+                        .css('color', 'red')
+                        .text(response.message)
+                        .show();
+                }
+            });
+
+        });
+    });
+</script>
+</body>
+</html>

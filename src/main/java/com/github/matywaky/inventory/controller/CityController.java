@@ -30,6 +30,6 @@ public class CityController {
     @PostMapping("/add/city")
     public ResponseEntity<Map<String, String>> addCity(@ModelAttribute City city,
                                                        @RequestParam Integer countryId) {
-        return cityService.saveAndReturnCityEntity(city, countryId);
+        return cityService.saveCityEntity(city, countryId);
     }
 }

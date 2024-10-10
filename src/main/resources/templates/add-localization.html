@@ -1,0 +1,59 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Add localization</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+<h1>Add localization</h1>
+
+<div id="message" style="display: none"></div>
+
+<form id="add-localization-form" th:action="@{/add/localization}" th:object="${localization}" method="post">
+    <label for="room">Room:</label>
+    <input type="text" id="room" th:field="*{room}" required th:maxlength="30"/><br>
+
+    <label for="building">Building:</label>
+    <select id="building" th:field="*{building.id}" required>
+        <option th:each="building : ${buildings}" th:value="${building.id}" th:text="${building.name}"></option>
+    </select><br>
+
+    <button type="submit">Add</button>
+</form>
+
+<script>
+    $(document).ready(function() {
+        $('#add-localization-form').on('submit', function(e) {
+            e.preventDefault();
+
+            const formData = {
+                room: $('#room').val(),
+                buildingId: $('#building').val()
+            };
+
+            $.ajax({
+                url: '/add/localization',
+                type: 'POST',
+                data: formData,
+                dataType: 'json',
+                success: function(response) {
+                    $('#message')
+                        .css('color', 'green')
+                        .text(response.message)
+                        .show();
+                    $('#room').val('');
+                },
+                error: function(xhr) {
+                    const response = JSON.parse(xhr.responseText);
+                    $('#message')
+                        .css('color', 'red')
+                        .text(response.message)
+                        .show();
+                }
+            });
+
+        });
+    });
+</script>
+</body>
+</html>

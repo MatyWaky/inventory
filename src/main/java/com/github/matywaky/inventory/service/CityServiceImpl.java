@@ -28,16 +28,7 @@ public class CityServiceImpl extends BasicJpaServiceImpl<City, Integer> implemen
     }
 
     @Override
-    public ResponseEntity<Map<String, String>> saveAndReturnCityEntity(City city, Integer countryId) {
-        Country country = countryService.findById(countryId);
-        if (country == null) {
-            Map<String, String> error = new HashMap<>();
-            error.put("message", "Country not found");
-            error.put("status", "error");
-            return ResponseEntity.badRequest().body(error);
-        }
-
-        city.setCountry(country);
-        return saveAndReturnResponseEntity(city);
+    public ResponseEntity<Map<String, String>> saveCityEntity(City city, Integer countryId) {
+        return saveAndReturnEntityWithDependency(city, countryId, countryService::findById, City::setCountry);
     }
 }

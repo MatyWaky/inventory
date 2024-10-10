@@ -9,5 +9,5 @@ import java.util.Map;
 
 public interface CityService extends BasicJpaService<City, Integer> {
     List<Country> findAllCountries();
-    ResponseEntity<Map<String, String>> saveAndReturnCityEntity(City entity, Integer countryId);
+    ResponseEntity<Map<String, String>> saveCityEntity(City entity, Integer countryId);
 }
