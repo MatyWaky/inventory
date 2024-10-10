@@ -18,6 +18,8 @@
   <label for="password">Password:</label>
   <input type="password" name="password" id="password" placeholder="Password" /> <br/>
 
+  <input type="checkbox" name="remember-me" id="remember-me">
+  <label for="remember-me">Remember me</label><br/>
   <input type="button" value="Log in" id="login-button" />
 </form>
 
@@ -27,6 +29,7 @@
       event.preventDefault();
       let email = $('#email').val();
       let password = $('#password').val();
+      let rememberMe = $('#remember-me').is(':checked');
 
       $.ajax({
         url: '/login',
@@ -34,7 +37,8 @@
         contentType: 'application/x-www-form-urlencoded',
         data: {
           email: email,
-          password: password
+          password: password,
+          'remember-me': rememberMe
         },
         success: function (response) {
           $('#login-message').text('Successfully logged in!').css('color', 'green').show();

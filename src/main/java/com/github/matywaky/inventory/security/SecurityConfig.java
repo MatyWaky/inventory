@@ -18,6 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
+    private final String VERY_STRONG_SECRET_TOKEN_REMEMBER_ME = "Zq7J!p9l@4mC3s1tRf5Wx";
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -42,6 +43,10 @@ public class SecurityConfig {
                                     response.getWriter().write("Error: " + exception.getMessage());
                         })
                         .permitAll()
+                )
+                .rememberMe(remember -> remember
+                        .key(VERY_STRONG_SECRET_TOKEN_REMEMBER_ME)
+                        .tokenValiditySeconds(86400) // 86400s = 1 min
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
