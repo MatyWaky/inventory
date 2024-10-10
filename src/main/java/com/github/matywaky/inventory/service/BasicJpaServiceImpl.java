@@ -2,10 +2,15 @@ package com.github.matywaky.inventory.service;
 
 import com.github.matywaky.inventory.repository.BasicJpaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -50,5 +55,25 @@ public abstract class BasicJpaServiceImpl<T, ID extends Serializable> implements
             return basicJpaRepository.save(entity);
         }
         return null;
+    }
+
+    @Override
+    public ResponseEntity<Map<String, String>> saveAndReturnResponseEntity(T entity) {
+        Map<String, String> response = new HashMap<>();
+
+        try {
+            save(entity);
+            response.put("status", "success");
+            response.put("message", "Added successfully");
+            return ResponseEntity.ok(response);
+        } catch (DataIntegrityViolationException e) {
+            response.put("status", "error");
+            response.put("message", "Already exists.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(response); // 409 Conflict
+        } catch (Exception e) {
+            response.put("status", "error");
+            response.put("message", "An unexpected error occurred.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response); // 500 Internal Server Error
+        }
     }
 }

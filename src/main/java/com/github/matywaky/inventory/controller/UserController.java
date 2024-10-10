@@ -21,7 +21,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/add-user")
+    @GetMapping("/add/user")
     public String showAddUserForm(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("roles", userService.findAllRoles());
@@ -29,7 +29,7 @@ public class UserController {
         return "add-user";
     }
 
-    @PostMapping("/add-user")
+    @PostMapping("/add/user")
     public ResponseEntity<Map<String, String>> addUser(
             @ModelAttribute User user,
             @RequestParam String repeatPassword,

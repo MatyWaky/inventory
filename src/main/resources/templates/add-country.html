@@ -1,0 +1,58 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Add country</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+<h1>Add country</h1>
+
+<div id="message" style="display: none"></div>
+
+<form id="add-country-form" th:action="@{/add/country}" th:object="${country}" method="post">
+    <label for="name">Country name:</label>
+    <input type="text" id="name" th:field="*{name}" required th:maxlength="100"/><br>
+
+    <label for="iso-code">ISO code:</label>
+    <input type="text" id="iso-code" th:field="*{isoCode}" required th:maxlength="2" style="text-transform: uppercase"/><br>
+
+    <button type="submit">Add</button>
+</form>
+
+<script>
+    $(document).ready(function() {
+        $('#add-country-form').on('submit', function(e) {
+            e.preventDefault();
+
+            const formData = {
+                name: $('#name').val(),
+                isoCode: $('#iso-code').val()
+            };
+
+            $.ajax({
+                url: '/add/country',
+                type: 'POST',
+                data: formData,
+                dataType: 'json',
+                success: function(response) {
+                    $('#message')
+                        .css('color', 'green')
+                        .text(response.message)
+                        .show();
+                    $('#name').val('');
+                    $('#iso-code').val('');
+                },
+                error: function(xhr) {
+                    const response = JSON.parse(xhr.responseText);
+                    $('#message')
+                        .css('color', 'red')
+                        .text(response.message)
+                        .show();
+                }
+            });
+
+        });
+    });
+</script>
+</body>
+</html>

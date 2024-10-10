@@ -18,7 +18,7 @@
     *) min. 1 special char !@#$%^&*<br>
 </p>
 
-<form id="add-user-form" th:action="@{/add-user}" th:object="${user}" method="post">
+<form id="add-user-form" th:action="@{/add/user}" th:object="${user}" method="post">
     <label for="employee">Employee:</label>
     <select id="employee" th:field="*{employee.id}" required>
         <option th:each="employee : ${employees}" th:value="${employee.id}" th:text="${employee.name} + ' ' + ${employee.surname}"></option>
@@ -55,7 +55,7 @@
             };
 
             $.ajax({
-                url: '/add-user',
+                url: '/add/user',
                 type: 'POST',
                 data: formData,
                 dataType: 'json',
