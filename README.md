@@ -6,9 +6,10 @@ Technologies used to implement this web application:
 - Spring Boot
 - PostgreSQL
 - Docker
-- Linux (ArcoLinux - Arch based distro)
+- Linux (ArcoLinux(before)/Arch (now))
 - Hibernate
 - Lombok
 - Github
 - Thymelaf
 - AJAX
+- Docker
