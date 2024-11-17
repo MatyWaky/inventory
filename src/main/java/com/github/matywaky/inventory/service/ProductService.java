@@ -12,8 +12,8 @@ public interface ProductService extends BasicJpaService<Product, Integer> {
     List<Employee> findAllEmployees();
     List<Status> findAllStatuses();
     String addProduct(Product product,
-                                                   Integer categoryId,
-                                                   Integer localizationId,
-                                                   Integer employeeId,
-                                                   Integer statusId);
+                      Integer categoryId,
+                      Integer localizationId,
+                      Integer employeeId,
+                      Integer statusId);
 }
