@@ -16,6 +16,15 @@
     <label for="price">Price:</label>
     <input type="number" id="price" th:field="*{price}" required/><br>
 
+    <label for="serial-number">Serial number:</label>
+    <input type="text" id="serial-number" th:field="*{serialNumber}" th:maxlength="30"/><br>
+
+    <label for="inventory-number">Inventory number:</label>
+    <input type="text" id="inventory-number" th:field="*{inventoryNumber}" th:maxlength="30" required/><br>
+
+    <label for="document">Document:</label>
+    <input type="text" id="document" th:field="*{document}" th:maxlength="30" required/><br>
+
     <label for="comment">Comment:</label>
     <input type="text" id="comment" th:field="*{comment}" th:maxlength="255"/><br>
 
@@ -50,6 +59,9 @@
                 name: $('#name').val(),
                 price: $('#price').val(),
                 comment: $('#comment').val(),
+                serialNumber: $('#serial-number').val(),
+                inventoryNumber: $('#inventory-number').val(),
+                document: $('#document').val(),
                 categoryId: $('#category').val(),
                 localizationId: $('#localization').val(),
                 employeeId: $('#employee').val(),

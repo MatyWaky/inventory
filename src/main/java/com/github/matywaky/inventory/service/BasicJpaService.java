@@ -1,5 +1,7 @@
 package com.github.matywaky.inventory.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 import java.io.Serializable;
@@ -22,4 +24,5 @@ public interface BasicJpaService<T, ID extends Serializable> {
             ID dependencyId,
             Function<ID, D> findDependencyFunction,
             BiConsumer<T, D> setDependencyFunction);
+    Page<T> findAll(Pageable pageable);
 }

@@ -1,8 +1,14 @@
 package com.github.matywaky.inventory.service;
 
 import com.github.matywaky.inventory.repository.BasicJpaRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -111,5 +117,10 @@ public abstract class BasicJpaServiceImpl<T, ID extends Serializable> implements
             response.put("message", "An unexpected error occurred.");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
+    }
+
+    @Override
+    public Page<T> findAll(Pageable pageable) {
+        return basicJpaRepository.findAll(pageable);
     }
 }

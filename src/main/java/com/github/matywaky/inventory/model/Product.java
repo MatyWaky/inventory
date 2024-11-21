@@ -47,4 +47,13 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "status_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_status"), nullable = false)
     private Status status;
+
+    @Column(name = "serial_number", length = 30)
+    private String serialNumber;
+
+    @Column(name = "inventory_number", length = 30, nullable = false)
+    private String inventoryNumber;
+
+    @Column(name = "document", length = 30, nullable = false)
+    private String document;
 }

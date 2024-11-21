@@ -2,13 +2,13 @@ package com.github.matywaky.inventory.service;
 
 import com.github.matywaky.inventory.model.*;
 import com.github.matywaky.inventory.repository.ProductRepository;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
+
 
 @Service
 public class ProductServiceImpl extends BasicJpaServiceImpl<Product, Integer> implements ProductService {

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        #tableContainer {
+            max-height: 400px; /* Ustal maksymalną wysokość kontenera */
+            overflow-y: auto; /* Dodaje przewijanie w pionie */
+            overflow-x: auto; /* Dodaje przewijanie w poziomie */
+            border: 1px solid #ccc; /* Opcjonalne: ramka dla kontenera */
+            margin-top: 20px; /* Opcjonalne: odstęp od nagłówka */
+        }
+
+        table {
+            width: 100%; /* Upewnij się, że tabela zajmuje całą szerokość kontenera */
+            border-collapse: collapse; /* Opcjonalne: usuwa odstępy między komórkami */
+        }
+
+        th, td {
+            padding: 8px; /* Opcjonalne: odstęp wewnętrzny komórek */
+            text-align: left; /* Opcjonalne: wyrównanie tekstu w lewo */
+            border: 1px solid #ccc; /* Opcjonalne: ramka dla komórek */
+        }
+    </style>
+</head>
+<body>
+<h1>Product List</h1>
+
+<div class="table-container">
+    <table border="1">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Added Date</th>
+            <th>Removed Date</th>
+            <th>Category</th>
+            <th>Room</th>
+            <th>Building</th>
+            <th>Street</th>
+            <th>Employee</th>
+            <th>Status</th>
+            <th>Serial Number</th>
+            <th>Inventory Number</th>
+            <th>Document</th>
+        </tr>
+        <tr>
+            <!-- Pusty wiersz do wpisywania wartości wyszukiwania -->
+            <td><input type="text" id="searchId"></td>
+            <td><input type="text" id="searchName"></td>
+            <td><input type="text" id="searchPrice"></td>
+            <td><input type="text" id="searchAddedDate"></td>
+            <td><input type="text" id="searchRemovedDate"></td>
+            <td><input type="text" id="searchCategory"></td>
+            <td><input type="text" id="searchRoom"></td>
+            <td><input type="text" id="searchBuilding"></td>
+            <td><input type="text" id="searchStreet"></td>
+            <td><input type="text" id="searchEmployee"></td>
+            <td><input type="text" id="searchStatus"></td>
+            <td><input type="text" id="searchSerialNumber"></td>
+            <td><input type="text" id="searchInventoryNumber"></td>
+            <td><input type="text" id="searchDocument"></td>
+        </tr>
+        </thead>
+        <tbody id="productTableBody">
+        <tr th:each="product : ${products}">
+            <td th:text="${product.id}"></td>
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.price}"></td>
+            <td th:text="${#dates.format(product.addedDate, 'yyyy-MM-dd')}"></td>
+            <td th:text="${#dates.format(product.removedDate, 'yyyy-MM-dd')}"></td>
+            <td th:text="${product.category.name}"></td>
+            <td th:text="${product.localization.room}"></td>
+            <td th:text="${product.localization.building.name}"></td>
+            <td th:text="${product.localization.building.street}"></td>
+            <td th:text="${product.employee.name} + ' ' + ${product.employee.surname}"></td>
+            <td th:text="${product.status.name}"></td>
+            <td th:text="${product.serialNumber}"></td>
+            <td th:text="${product.inventoryNumber}"></td>
+            <td th:text="${product.document}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Paginacja -->
+<div>
+    <span th:text="'Page ' + ${products.number + 1} + ' of ' + ${products.totalPages}"></span>
+    <div>
+        <a th:if="${products.hasPrevious()}" th:href="@{/products(page=${products.number - 1})}">Previous</a>
+        <a th:if="${products.hasNext()}" th:href="@{/products(page=${products.number + 1})}">Next</a>
+    </div>
+</div>
+
+<script>
+    let currentPage = 0;
+    const pageSize = 3;
+
+    function searchProducts() {
+        const searchParams = {
+            id: $('#searchId').val(),
+            name: $('#searchName').val(),
+            price: $('#searchPrice').val(),
+            addedDate: $('#searchAddedDate').val(),
+            removedDate: $('#searchRemovedDate').val(),
+            category: $('#searchCategory').val(),
+            room: $('#searchRoom').val(),
+            building: $('#searchBuilding').val(),
+            street: $('#searchStreet').val(),
+            employee: $('#searchEmployee').val(),
+            status: $('#searchStatus').val(),
+            serialNumber: $('#searchSerialNumber').val(),
+            inventoryNumber: $('#searchInventoryNumber').val(),
+            document: $('#searchDocument').val(),
+            page: currentPage,
+            size: pageSize
+        };
+
+        $.ajax({
+            url: "/products/search",
+            method: "GET",
+            data: searchParams,
+            success: function(response) {
+                let products = response.content; // Uzyskaj listę produktów z obiektu Page<Product>
+                let tableBody = $("#productTableBody");
+                tableBody.empty(); // Wyczyść tabelę
+
+                // Pętla przez wyniki i budowanie wierszy
+                products.forEach(function(product) {
+                    let row = "<tr>" +
+                        "<td>" + product.id + "</td>" +
+                        "<td>" + product.name + "</td>" +
+                        "<td>" + product.price + "</td>" +
+                        "<td>" + (product.addedDate ? new Date(product.addedDate).toLocaleDateString() : '') + "</td>" +
+                        "<td>" + (product.removedDate ? new Date(product.removedDate).toLocaleDateString() : '') + "</td>" +
+                        "<td>" + product.category.name + "</td>" +
+                        "<td>" + product.localization.room + "</td>" +
+                        "<td>" + product.localization.building.name + "</td>" +
+                        "<td>" + product.localization.building.street + "</td>" +
+                        "<td>" + product.employee.name + ' ' + product.employee.surname + "</td>" +
+                        "<td>" + product.status.name + "</td>" +
+                        "<td>" + product.serialNumber + "</td>" +
+                        "<td>" + product.inventoryNumber + "</td>" +
+                        "<td>" + product.document + "</td>" +
+                        "</tr>";
+                    tableBody.append(row);
+                });
+
+                // Zaktualizuj paginację
+                $('#paginationInfo').text('Page ' + (response.number + 1) + ' of ' + response.totalPages);
+            }
+        });
+    }
+
+/*    function changePage(direction) {
+        currentPage += direction;
+        if (currentPage < 0) currentPage = 0; // Nie pozwól na ujemne numery stron
+        searchProducts();
+    }*/
+
+    // Wyszukiwanie po wciśnięciu Enter
+    $('input').on('keypress', function(event) {
+        if (event.which === 13) {  // Sprawdzenie wciśnięcia klawisza Enter (kod 13)
+            currentPage = 0; // Resetuj stronę do pierwszej przy nowym wyszukiwaniu
+            searchProducts();
+        }
+    });
+</script>
+
+<!--<div>
+    <button onclick="changePage(-1)">Previous</button>
+    <button onclick="changePage(1)">Next</button>
+</div>-->
+</body>
+</html>
