@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping("/add/user")
-    public ResponseEntity<Map<String, String>> addUser(
+    public ResponseEntity<Map<String, String>> addUser (
             @ModelAttribute User user,
             @RequestParam String repeatPassword,
             @RequestParam Integer roleId,
