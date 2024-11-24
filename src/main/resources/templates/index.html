@@ -1,27 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${title}"/>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
-  </head>
+<head>
+  <title th:text="${title}"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
 
-  <body>
-  <header>
-    <h1 th:text="${title}"/>
+<body>
 
-    <form action="/logout" method="POST">
-      <input type="submit" value="Logout" />
-    </form>
-  </header>
+<div th:replace="~{header.html}"></div>
 
-  <main>
-    <p th:text="${pageDescription}"/>
-  </main>
+<main>
+  <p th:text="${pageDescription}"/>
+</main>
 
-  <footer>
-    <p>&copy; 2024 Moja Aplikacja</p>
-  </footer>
-  </body>
+<div th:replace="~{footer.html}"></div>
+</body>
 </html>

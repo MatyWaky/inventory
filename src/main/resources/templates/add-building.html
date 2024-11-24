@@ -2,11 +2,15 @@
 <head>
     <title>Add building</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 
 <body>
-<h1>Add building</h1>
+<div th:replace="~{header.html}"></div>
 
+<main>
 <div id="message" style="display: none"></div>
 
 <form id="add-building-form" th:action="@{/add/building}" th:object="${building}" method="post">
@@ -23,6 +27,9 @@
 
     <button type="submit">Add</button>
 </form>
+
+</main>
+<div th:replace="~{footer.html}"></div>
 
 <script>
     $(document).ready(function() {

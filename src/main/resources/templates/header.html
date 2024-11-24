@@ -1,0 +1,16 @@
+<header>
+    <nav>
+        <ul>
+            <li><a th:href="@{/}">Home</a></li>
+            <li><a th:href="@{/products}">Products</a></li>
+            <li><a th:href="@{/users}">Users</a></li>
+            <li><a th:href="@{/add/building}">Add Building</a></li>
+            <li><a th:href="@{/add/category}">Add Category</a></li>
+            <li><a href="#" th:onclick="|document.getElementById('logout-form').submit();|">Logout</a></li>
+        </ul>
+    </nav>
+</header>
+
+<form id="logout-form" action="/logout" method="POST" style="display: none;">
+    <input type="submit" value="Logout">
+</form>

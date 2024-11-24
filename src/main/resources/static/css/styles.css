@@ -1,28 +1,124 @@
+/* Ogólne style */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Upewnia się, że padding i marginesy są uwzględniane w szerokości elementów */
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden; /* Zatrzymuje przewijanie poziome */
 }
 
+/* Nagłówek */
 header {
     background-color: #4CAF50;
     color: white;
+    padding: 20px;
     text-align: center;
-    padding: 1em;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Rozciąga nagłówek na pełną szerokość */
 }
 
+header nav {
+    margin-top: 10px;
+}
+
+header nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    margin: 0; /* Usuwamy marginesy */
+}
+
+header nav ul li {
+    margin-right: 20px;
+}
+
+header nav ul li:last-child {
+    margin-right: 0;
+}
+
+header nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 4px;
+}
+
+header nav a:hover {
+    background-color: #45a049;
+}
+
+/* Główna zawartość strony */
 main {
+    flex: 1; /* Rozciąga główną część strony na całą wysokość */
     margin: 20px;
     text-align: center;
 }
 
+/* Stopka */
 footer {
     background-color: #333;
     color: white;
     text-align: center;
-    padding: 1em;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
+    padding: 20px;
+    width: 100%; /* Rozciąga stopkę na pełną szerokość */
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+footer .footer-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+footer .footer-buttons a {
+    color: white;
+    background-color: #4CAF50;
+    text-decoration: none;
+    padding: 8px 16px;
+    margin: 5px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+footer .footer-buttons a:hover {
+    background-color: #45a049;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Media Queries: Dostosowanie wyglądu na mniejszych ekranach */
+@media (max-width: 768px) {
+    header nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    header nav ul li {
+        margin-bottom: 10px;
+    }
+
+    header nav ul li:last-child {
+        margin-bottom: 0;
+    }
+
+    footer .footer-buttons a {
+        font-size: 14px;
+    }
 }
