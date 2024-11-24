@@ -1,16 +1,7 @@
-CREATE TABLE IF NOT EXISTS buildings (
+CREATE TABLE IF NOT EXISTS countries (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL UNIQUE,
-    street VARCHAR(255) NOT NULL,
-    city_id INTEGER NOT NULL,
-
-    CONSTRAINT fk_city FOREIGN KEY (city_id) REFERENCES cities(id) ON DELETE SET NULL
-);
-
-CREATE TABLE IF NOT EXISTS categories (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(30) NOT NULL,
-    description VARCHAR(200) NOT NULL
+    name VARCHAR(100) NOT NULL UNIQUE,
+    iso_code VARCHAR(2) NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS cities (
@@ -21,10 +12,27 @@ CREATE TABLE IF NOT EXISTS cities (
     CONSTRAINT fk_country FOREIGN KEY (country_id) REFERENCES countries(id) ON DELETE SET NULL
 );
 
-CREATE TABLE IF NOT EXISTS countries (
+CREATE TABLE IF NOT EXISTS buildings (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    iso_code VARCHAR(2) NOT NULL
+    name VARCHAR(255) NOT NULL UNIQUE,
+    street VARCHAR(255) NOT NULL,
+    city_id INTEGER NOT NULL,
+
+    CONSTRAINT fk_city FOREIGN KEY (city_id) REFERENCES cities(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS localizations (
+    id SERIAL PRIMARY KEY,
+    room VARCHAR(30) UNIQUE,
+    building_id INTEGER NOT NULL,
+
+    CONSTRAINT fk_building FOREIGN KEY (building_id) REFERENCES buildings(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS categories (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(30) NOT NULL UNIQUE,
+    description VARCHAR(200) NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS employees (
@@ -33,28 +41,32 @@ CREATE TABLE IF NOT EXISTS employees (
     surname VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS localizations (
+CREATE TABLE IF NOT EXISTS roles (
     id SERIAL PRIMARY KEY,
-    room VARCHAR(30),
-    building_id INTEGER NOT NULL,
+    name VARCHAR(255) NOT NULL UNIQUE,
+    description VARCHAR(255) NOT NULL UNIQUE
+);
 
-    CONSTRAINT fk_building FOREIGN KEY (building_id) REFERENCES buildings(id) ON DELETE SET NULL
+CREATE TABLE IF NOT EXISTS statuses (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL UNIQUE,
+    description VARCHAR(255) NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS products (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     price BIGINT,
-    added_date TIMESTAMP,
+    added_date TIMESTAMP NOT NULL,
     removed_date TIMESTAMP,
     comment VARCHAR(255),
-    category_id INTEGER,
-    localization_id INTEGER,
-    employee_id INTEGER,
-    status_id INTEGER,
+    category_id INTEGER NOT NULL,
+    localization_id INTEGER NOT NULL,
+    employee_id INTEGER NOT NULL,
+    status_id INTEGER NOT NULL,
     serial_number VARCHAR(30),
     inventory_number VARCHAR(30) NOT NULL,
-    document VARCHAR(30) NOT NULL,
+    document VARCHAR(30),
 
     CONSTRAINT fk_category FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL,
     CONSTRAINT fk_localization FOREIGN KEY (localization_id) REFERENCES localizations(id) ON DELETE SET NULL,
@@ -62,26 +74,13 @@ CREATE TABLE IF NOT EXISTS products (
     CONSTRAINT fk_status FOREIGN KEY (status_id) REFERENCES statuses(id) ON DELETE SET NULL
 );
 
-CREATE TABLE IF NOT EXISTS roles (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    description VARCHAR(255) NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS statuses (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    description VARCHAR(255) NOT NULL
-);
-
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    role_id INTEGER,
+    role_id INTEGER NOT NULL,
     employee_id INTEGER NOT NULL,
 
     CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE SET NULL,
     CONSTRAINT fk_employee FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE SET NULL
 );
-

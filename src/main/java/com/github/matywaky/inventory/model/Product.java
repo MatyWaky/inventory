@@ -22,6 +22,7 @@ public class Product {
     @Column(length = 100, nullable = false)
     private String name;
 
+    @Column(name = "price")
     private Long price;
 
     @Column(nullable = false, name = "added_date")
@@ -30,6 +31,7 @@ public class Product {
     @Column(name = "removed_date")
     private Date removedDate;
 
+    @Column(name = "comment", length = 255)
     private String comment;
 
     @ManyToOne
@@ -51,9 +53,9 @@ public class Product {
     @Column(name = "serial_number", length = 30)
     private String serialNumber;
 
-    @Column(name = "inventory_number", length = 30, nullable = false)
+    @Column(name = "inventory_number", length = 30)
     private String inventoryNumber;
 
-    @Column(name = "document", length = 30, nullable = false)
+    @Column(name = "document", length = 30)
     private String document;
 }

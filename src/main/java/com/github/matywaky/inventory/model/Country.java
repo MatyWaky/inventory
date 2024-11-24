@@ -16,9 +16,9 @@ public class Country {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(length = 100, nullable = false)
+    @Column(name = "name", length = 100, nullable = false, unique = true)
     private String name;
 
-    @Column(length = 2, nullable = false)
+    @Column(name = "iso_code", length = 2, nullable = false, unique = true)
     private String isoCode;
 }

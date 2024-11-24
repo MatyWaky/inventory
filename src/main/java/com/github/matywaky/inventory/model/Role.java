@@ -17,10 +17,10 @@ public class Role implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "description", nullable = false, unique = true)
     private String description;
 
     @Override

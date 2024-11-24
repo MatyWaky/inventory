@@ -61,7 +61,7 @@ VALUES
 -- products
 -- Timestamp - YYYY-MM-DD HH:MM:SS
 INSERT INTO
-    products(added_date, comment, name, price, removed_date, category_id, employee_id, localization_id, status_id)
+    products(added_date, comment, name, price, removed_date, category_id, employee_id, localization_id, status_id, serial_number, inventory_number, document)
 VALUES
     ('2024-11-21 12:00:00',
      null,
@@ -71,5 +71,8 @@ VALUES
      1,
      1,
      1,
-     1
+     1,
+     'AXC123DASI',
+     '00000001',
+     'DOC/INV/A/1'
     );

@@ -22,18 +22,18 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
     @ManyToOne
-    @JoinColumn(name = "role_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_role"))
+    @JoinColumn(name = "role_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_role"), nullable = false)
     private Role role;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id" ,referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_employee"))
+    @JoinColumn(name = "employee_id" ,referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_employee"), nullable = false)
     private Employee employee;
 
 

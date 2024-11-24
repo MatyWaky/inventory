@@ -16,7 +16,7 @@ public class Localization {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(length = 30)
+    @Column(name = "room", length = 30, unique = true)
     private String room;
 
     @ManyToOne
