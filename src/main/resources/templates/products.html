@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
     <title>Products</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
     <style>
         #tableContainer {
             max-height: 400px; /* Ustal maksymalną wysokość kontenera */
@@ -26,6 +28,10 @@
     </style>
 </head>
 <body>
+
+<div th:replace="~{header.html}"></div>
+
+<main>
 <h1>Product List</h1>
 
 <div class="table-container">
@@ -94,6 +100,10 @@
         <a th:if="${products.hasNext()}" th:href="@{/products(page=${products.number + 1})}">Next</a>
     </div>
 </div>
+
+</main>
+
+<div th:replace="~{footer.html}"></div>
 
 <script>
     let currentPage = 0;

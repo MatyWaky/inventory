@@ -1,11 +1,18 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="en">
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
 <head>
   <title>Please Log In</title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 
 <body>
+
+<div th:replace="~{header.html}"></div>
+
+<main>
 <h1>Please Log In</h1>
 
 <p th:if="${param.logout}">You have been logged out successfully.</p>
@@ -22,6 +29,9 @@
   <label for="remember-me">Remember me</label><br/>
   <input type="button" value="Log in" id="login-button" />
 </form>
+</main>
+
+<div th:replace="~{footer.html}"></div>
 
 <script>
   $(document).ready(function () {

@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
 <head>
     <title>Add building</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -11,6 +11,7 @@
 <div th:replace="~{header.html}"></div>
 
 <main>
+    <h1>Add building</h1>
 <div id="message" style="display: none"></div>
 
 <form id="add-building-form" th:action="@{/add/building}" th:object="${building}" method="post">
